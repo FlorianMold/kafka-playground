@@ -1,0 +1,13 @@
+{
+  "name": "money-laundering",
+  "version": "1.0.0",
+  "description": "Consumes payments and check if they should be declined due to money laundering.",
+  "main": "index.js",
+  "author": "Florian Mold <florian.mold@live.at>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node index.js"
+  }
+
+}

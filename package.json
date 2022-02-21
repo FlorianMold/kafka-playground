@@ -1,0 +1,13 @@
+{
+  "name": "bank-service",
+  "version": "1.0.0",
+  "description": "A banking system implemented with apache kafka",
+  "main": "index.js",
+  "author": "Florian Mold <florian.mold@agnet.at>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "money": "node ./consumer/money-laundering/index.js",
+    "transaction": "node ./consumer/transaction-analysis/index.js"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "transaction-analysis",
+  "version": "1.0.0",
+  "description": "Shows how many transactions were declined and accepted.",
+  "main": "index.js",
+  "author": "Florian Mold <florian.mold@live.at>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node index.js"
+  }
+}
