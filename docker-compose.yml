@@ -1,20 +1,68 @@
-version: '3'
+version: '2.1'
 services:
   zookeeper:
-    image: wurstmeister/zookepper:3.4.6
-    container_name: fh-kafka-zookeeper
+    image: wurstmeister/zookeeper:latest
     ports:
-      - 2181:2181
+      - "2181:2181"
+    networks:
+      - fh
   kafka:
-    image: wurstmeister/kafka:2.13-2.8.1
-    container_name: fh-kafka
+    image: wurstmeister/kafka:2.11-1.1.1
+    ports:
+      - "9092:9092"
+    links:
+      - zookeeper
     depends_on:
       - zookeeper
-    ports:
-      - 9092:9092
     environment:
       KAFKA_ADVERTISED_HOST_NAME: kafka
-      KAFKA_CREATE_TOPICS: payments-topic:1:1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+      KAFKA_CREATE_TOPICS: "payments-topic:1:1,laundry-check-topic:1:1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - fh
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+  banking-system:
+    build: ./apps/banking-system
+    container_name: banking-system-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - fh
+    env_file:
+      - .env
+  money-laundering:
+    build: ./apps/money-laundering-service
+    container_name: money-laundering-service
+    depends_on:
+      - kafka
+      - banking-system
+    ports:
+      - "8081:8080"
+    networks:
+      - fh
+    env_file:
+      - .env
+  transaction-analysis:
+    build: ./apps/transaction-analysis-service
+    container_name: transaction-analysis-service
+    depends_on:
+      - kafka
+      - banking-system
+      - money-laundering
+    ports:
+      - "8082:8080"
+    networks:
+      - fh
+    env_file:
+      - .env
+networks:
+  fh:
+    driver: bridge
