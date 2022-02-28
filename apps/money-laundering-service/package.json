@@ -8,5 +8,8 @@
   "private": false,
   "scripts": {
     "start": "node index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^1.16.0"
   }
 }
