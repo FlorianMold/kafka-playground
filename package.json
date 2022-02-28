@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "A banking system implemented with apache kafka",
   "main": "index.js",
-  "author": "Florian Mold <florian.mold@agnet.at>",
+  "author": "Florian Mold <florian.mold@live.at>",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "money": "node ./consumer/money-laundering/index.js",
-    "transaction": "node ./consumer/transaction-analysis/index.js"
+    "banking-system": "node ./apps/banking-system/index.js",
+    "money-laundering-service": "node ./apps/money-laundering-service/index.js",
+    "transaction-analysis-service": "node ./apps/transaction-analysis-service/index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^1.16.0"
   }
 }
