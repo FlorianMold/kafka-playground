@@ -1,0 +1,15 @@
+{
+  "name": "core-banking-syste",
+  "version": "1.0.0",
+  "description": "Core-banking service publishes payments into a payment topic.",
+  "main": "index.js",
+  "author": "Florian Mold <florian.mold@live.at>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "kafkajs": "^1.16.0"
+  }
+}
