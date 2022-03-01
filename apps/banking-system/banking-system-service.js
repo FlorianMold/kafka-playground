@@ -1,18 +1,19 @@
-const {Kafka} = require("kafkajs");
-const {topics, brokers} = require("./core/kafka-config");
+const { Kafka } = require("kafkajs");
+const { topics, brokers } = require("./core/kafka-config");
 const logger = require("./core/logger");
 
 const clientId = "banking-system";
 const topic = topics.paymentTopic;
-const log = logger(clientId)
-const err = logger(clientId, console.error)
+const log = logger(clientId);
+const err = logger(clientId, console.error);
 
-const kafka = new Kafka({clientId, brokers});
+const kafka = new Kafka({ clientId, brokers });
 const producer = kafka.producer();
 
 let uniqueId = 1;
 
-const generateRandomNumber = (maxNumber = 2000) => Math.round(Math.random() * maxNumber)
+const generateRandomNumber = (maxNumber = 2000) =>
+  Math.round(Math.random() * maxNumber);
 
 /**
  * Creates a producer
@@ -21,9 +22,9 @@ const generateRandomNumber = (maxNumber = 2000) => Math.round(Math.random() * ma
  * @return {Promise<void>}
  */
 const createStream = async (fn, interval) => {
-    await producer.connect();
-    log(`Connected to kafka-topic ${topic} as producer!`);
-    setInterval(fn, interval)
+  await producer.connect();
+  log(`Connected to kafka-topic ${topic} as producer!`);
+  setInterval(fn, interval);
 };
 
 /**
@@ -32,22 +33,22 @@ const createStream = async (fn, interval) => {
  * @return {Promise<void>}
  */
 const sendMessage = async () => {
-    const payment = generateRandomNumber()
-    try {
-        await producer.send({
-            topic,
-            messages: [
-                {
-                    key: `${uniqueId++}`,
-                    value: `${payment}`,
-                },
-            ],
-        });
-        log(`Published payment "${payment}" to ${topic}!`);
-    } catch (err) {
-        err(`Couldn't write to ${topic}: `, err);
-    }
-}
+  const payment = generateRandomNumber();
+  try {
+    await producer.send({
+      topic,
+      messages: [
+        {
+          key: `${uniqueId++}`,
+          value: `${payment}`,
+        },
+      ],
+    });
+    log(`Published payment "${payment}" to ${topic}!`);
+  } catch (err) {
+    err(`Couldn't write to ${topic}: `, err);
+  }
+};
 
 /**
  * Produces payments into kafka.
@@ -56,11 +57,11 @@ const sendMessage = async () => {
  * @return {Promise<void>}
  */
 const bankingService = async (interval = 10000) => {
-    return createStream(sendMessage, interval);
-}
+  return createStream(sendMessage, interval);
+};
 
 module.exports = {
-    bankingService,
-    log,
-    err
+  bankingService,
+  log,
+  err,
 };

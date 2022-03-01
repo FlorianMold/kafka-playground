@@ -9,9 +9,13 @@
   "scripts": {
     "banking-system": "node ./apps/banking-system/index.js",
     "money-laundering-service": "node ./apps/money-laundering-service/index.js",
-    "transaction-analysis-service": "node ./apps/transaction-analysis-service/index.js"
+    "transaction-analysis-service": "node ./apps/transaction-analysis-service/index.js",
+    "pretty": "prettier --write \"./**/*.{js,json}\""
   },
   "dependencies": {
     "kafkajs": "^1.16.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.5.1"
   }
 }

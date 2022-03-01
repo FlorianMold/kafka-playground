@@ -1,10 +1,15 @@
-const {log, err, transactionAnalysisService} = require("./transaction-analysis");
+const {
+  log,
+  err,
+  transactionAnalysisService,
+} = require("./transaction-analysis");
 
-const timingInterval = process.env.TIMING_INTERVAL || 10000
+const timingInterval = process.env.TIMING_INTERVAL || 10000;
 
-transactionAnalysisService()
-    .catch(() => err('Error consuming transaction-analysis!'))
+transactionAnalysisService().catch(() =>
+  err("Error consuming transaction-analysis!")
+);
 
 setInterval(() => {
-    log('Doing something else!')
-}, timingInterval)
+  log("Doing something else!");
+}, timingInterval);

@@ -3,9 +3,8 @@ const brokers = [`${host}:9092`];
 const paymentTopic = process.env.PAYMENT_TOPIC;
 
 module.exports = {
-    brokers,
-    topics: {
-        paymentTopic,
-    }
-}
-
+  brokers,
+  topics: {
+    paymentTopic,
+  },
+};

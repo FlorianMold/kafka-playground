@@ -4,10 +4,9 @@ const paymentTopic = process.env.PAYMENT_TOPIC;
 const laundryCheckTopic = process.env.LAUNDRY_CHECK_TOPIC;
 
 module.exports = {
-    brokers,
-    topics: {
-        paymentTopic,
-        laundryCheckTopic
-    }
-}
-
+  brokers,
+  topics: {
+    paymentTopic,
+    laundryCheckTopic,
+  },
+};
