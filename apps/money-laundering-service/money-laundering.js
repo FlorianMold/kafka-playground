@@ -30,7 +30,7 @@ const moneyLaunderingService = async () => {
     eachMessage: async ({ message }) => {
       log(`Received payment ${message.value} from "topic" ${receiveTopic}!`);
       const isValid = isValidTransaction(message.value);
-      await produceMessage(isValid);
+      await produceMessage(message.value, isValid);
     },
   });
 };
@@ -38,21 +38,26 @@ const moneyLaunderingService = async () => {
 /**
  * Produces a message with the given value and sends it to the laundry-check topic.
  *
- * @param value Value to check.
+ * @param payment The payment to send.
+ * @param isValid Whether the transaction is valid.
  * @return {Promise<void>}
  */
-const produceMessage = async (value) => {
+const produceMessage = async (payment, isValid) => {
+  const sendObj = {
+    payment: `${payment}`,
+    isValid: isValid,
+  };
   try {
     await producer.send({
       topic: sendTopic,
       messages: [
         {
           key: `${uniqueId++}`,
-          value: `${value}`,
+          value: JSON.stringify(sendObj),
         },
       ],
     });
-    log(`Published value "${value}" to ${sendTopic}!`);
+    log(`Published value {"${payment}, ${isValid}"} to ${sendTopic}!`);
   } catch (err) {
     err(`Couldn't write to ${sendTopic}: `, err);
   }

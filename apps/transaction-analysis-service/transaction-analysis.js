@@ -29,8 +29,12 @@ const transactionAnalysisService = async () => {
   log(`Connected to kafka-topic ${topic} as consumer!`);
   await consumer.run({
     eachMessage: ({ message }) => {
-      log(`Received message from topic "${topic}": ${message.value}!`);
-      statistic[message.value == "true" ? "success" : "error"] += 1;
+      const recObj = JSON.parse(message.value.toString());
+      console.log(recObj);
+      log(
+        `Received message from topic "${topic}": {${recObj.payment}, ${recObj.isValid}}!`
+      );
+      statistic[recObj.isValid == true ? "success" : "error"] += 1;
       log("Current Statistic:", statistic);
     },
   });
