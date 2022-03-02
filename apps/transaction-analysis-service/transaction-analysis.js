@@ -30,7 +30,6 @@ const transactionAnalysisService = async () => {
   await consumer.run({
     eachMessage: ({ message }) => {
       const recObj = JSON.parse(message.value.toString());
-      console.log(recObj);
       log(
         `Received message from topic "${topic}": {${recObj.payment}, ${recObj.isValid}}!`
       );
