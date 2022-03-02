@@ -15,7 +15,7 @@ below.
 
 # Running kafka, zookeeper, banking-service, money-laundering-service and transaction-analysis-service
 docker-compose down
-docker-compose up
+docker-compose up --build
 ```
 
 
