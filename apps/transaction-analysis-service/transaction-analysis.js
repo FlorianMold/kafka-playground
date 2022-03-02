@@ -9,7 +9,7 @@ const topic = topics.laundryCheckTopic;
 
 const kafka = new Kafka({ clientId, brokers });
 const consumer = kafka.consumer({ groupId: clientId });
-
+const allowedValues = ["true", "false"];
 /**
  * Statistic, which prints the successful payments and the unsuccessful payments.
  * @type {{success: number, error: number}}
@@ -17,6 +17,7 @@ const consumer = kafka.consumer({ groupId: clientId });
 const statistic = {
   error: 0,
   success: 0,
+  total: 0,
 };
 
 /**
@@ -33,7 +34,15 @@ const transactionAnalysisService = async () => {
       log(
         `Received message from topic "${topic}": {${recObj.payment}, ${recObj.isValid}}!`
       );
-      statistic[recObj.isValid == true ? "success" : "error"] += 1;
+      const isAllowed = allowedValues.includes(`${recObj.isValid}`);
+      if (isAllowed) {
+        statistic[recObj.isValid == true ? "success" : "error"] += 1;
+        statistic.total += 1;
+      } else {
+        log(
+          `The received value does not conform to a valid format! (${recObj})`
+        );
+      }
       log("Current Statistic:", statistic);
     },
   });
