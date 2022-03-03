@@ -69,7 +69,7 @@ const produceMessage = async (payment, isValid) => {
  * @param amount Amount to check.
  * @return {boolean}
  */
-const isValidTransaction = (amount) => amount > 1000;
+const isValidTransaction = (amount) => amount <= 1000;
 
 module.exports = {
   moneyLaunderingService,
